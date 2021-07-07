@@ -54,7 +54,7 @@ HDPair OptimizedDiameter(Node* root){
     HDPair Left = OptimizedDiameter(root->left);
     HDPair Right = OptimizedDiameter(root->right);
 
-    p.height = max(Left.height,Right.diameter)+1;
+    p.height = max(Left.height,Right.height)+1;
     int d1 = Left.height+Right.height;
     int d2 = Left.diameter;
     int d3 = Right.diameter;
