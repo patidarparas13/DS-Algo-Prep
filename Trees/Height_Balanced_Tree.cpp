@@ -1,3 +1,10 @@
+// Given a binary tree, check if it is a height balanced tree
+//A non-empty binary tree T is balanced if:
+//1) Left Subtree Of T is balanced
+//2) Right Subtree of T is balanced
+//3) The difference between heights of left subtree and right subtree is not more than 1
+// |h1-h2|<=1
+
 #include <iostream>
 #include <queue>
 using namespace std;
@@ -15,54 +22,6 @@ public:
         right = NULL;
     }
 };
-
-int height(Node* root){
-    if(root==NULL){
-        return 0; 
-    }
-    int h1 = height(root->left);
-    int h2 = height(root->right);
-    return max(h1,h2)+1;
-}
-
-//Time Complexity: O(N^2)
-int diameter(Node* root){
-    if(root==NULL){
-        return 0;
-    }
-    int d1 = height(root->left)+height(root->right);
-    int d2 = diameter(root->left);
-    int d3 = diameter(root->right);
-    return max(d1,max(d2,d3));
-
-}
-
-class HDPair{
-  public:
-  int diameter;
-  int height;  
-};
-
-//Time Complexity: O(N)
-HDPair OptimizedDiameter(Node* root){
-    HDPair p;
-    if(root==NULL){
-        p.height = p.height = 0;
-        return p;
-    }
-
-    HDPair Left = OptimizedDiameter(root->left);
-    HDPair Right = OptimizedDiameter(root->right);
-
-    p.height = max(Left.height,Right.height)+1;
-    int d1 = Left.height+Right.height;
-    int d2 = Left.diameter;
-    int d3 = Right.diameter;
-
-    p.diameter = max(d1,max(d2,d3));
-    return p;
-}
-
 Node* buildLevelOrderTree(){
     int d;
     cin>>d;
@@ -85,6 +44,31 @@ Node* buildLevelOrderTree(){
     }
 return root;
 }
+
+//O(N) Time
+pair<int,bool> isHeightBalanced(Node* root){
+    pair<int,bool> p, Left,Right;
+
+    //Base Case
+    if(root==NULL){
+        p.first = 0; //Height
+        p.second = true; //Balanced
+        return p;
+    }
+
+    //Recursive Case
+    //Post Order Traversal
+    Left = isHeightBalanced(root->left);
+    Right = isHeightBalanced(root->right);
+
+    int height = max(Left.first,Right.first)+1;
+
+    if(abs(Left.first-Right.first)<=1 and Left.second and Right.second){
+        return make_pair(height,true);
+    }
+    return make_pair(height,false);
+}
+
 void bfs(Node *root)
 {
     queue<Node *> q;
@@ -122,10 +106,14 @@ void bfs(Node *root)
 int main()
 {
     Node *root = buildLevelOrderTree();
-    bfs(root);
-    cout<<endl;
-    cout<<"Diameter is:"<<diameter(root)<<endl;
-    cout<<"Optimized Diameter is:"<<OptimizedDiameter(root).diameter<<endl;
+    pair<int,bool> p = isHeightBalanced(root);
+    if(p.second){
+    cout<<"Tree Is Balanced!"<<endl;
 
+    }else{
+    cout<<"Tree Is Not Balanced!"<<endl;
+
+    }
+    bfs(root);
     return 0;
 }

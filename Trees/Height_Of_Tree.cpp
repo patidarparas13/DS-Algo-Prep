@@ -1,3 +1,11 @@
+//Given a binary tree, replace every node by sum of all its descedants, leave leaf nodes intact ?
+
+//Hint: We need to keep the data of parent node intact while replacing with node with descedant sum
+//int temp = root->data
+//root->data = LS + RS 
+//return temp+root->data;
+
+//PostOrder: L+R+Root
 #include <iostream>
 #include <queue>
 using namespace std;
@@ -15,54 +23,6 @@ public:
         right = NULL;
     }
 };
-
-int height(Node* root){
-    if(root==NULL){
-        return 0; 
-    }
-    int h1 = height(root->left);
-    int h2 = height(root->right);
-    return max(h1,h2)+1;
-}
-
-//Time Complexity: O(N^2)
-int diameter(Node* root){
-    if(root==NULL){
-        return 0;
-    }
-    int d1 = height(root->left)+height(root->right);
-    int d2 = diameter(root->left);
-    int d3 = diameter(root->right);
-    return max(d1,max(d2,d3));
-
-}
-
-class HDPair{
-  public:
-  int diameter;
-  int height;  
-};
-
-//Time Complexity: O(N)
-HDPair OptimizedDiameter(Node* root){
-    HDPair p;
-    if(root==NULL){
-        p.height = p.height = 0;
-        return p;
-    }
-
-    HDPair Left = OptimizedDiameter(root->left);
-    HDPair Right = OptimizedDiameter(root->right);
-
-    p.height = max(Left.height,Right.height)+1;
-    int d1 = Left.height+Right.height;
-    int d2 = Left.diameter;
-    int d3 = Right.diameter;
-
-    p.diameter = max(d1,max(d2,d3));
-    return p;
-}
-
 Node* buildLevelOrderTree(){
     int d;
     cin>>d;
@@ -84,6 +44,17 @@ Node* buildLevelOrderTree(){
         }
     }
 return root;
+}
+
+
+int height(Node* root){
+    if(root==NULL){
+        return 0;
+    }
+
+    int h1= height(root->left);
+    int h2 = height(root->right);
+    return max(h1,h2) +1;
 }
 void bfs(Node *root)
 {
@@ -122,10 +93,7 @@ void bfs(Node *root)
 int main()
 {
     Node *root = buildLevelOrderTree();
+    cout<<"Height Of A Tree:"<<height(root)<<endl;
     bfs(root);
-    cout<<endl;
-    cout<<"Diameter is:"<<diameter(root)<<endl;
-    cout<<"Optimized Diameter is:"<<OptimizedDiameter(root).diameter<<endl;
-
     return 0;
 }
