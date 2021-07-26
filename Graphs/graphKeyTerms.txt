@@ -1,0 +1,36 @@
+# Graph
+  Graph is set of nodes, which are also called vertex which are connected with edges
+
+# Types Of Graph
+	1. Weighted Graph
+		Graphs whose edges or paths have values called weights.
+		Edges value can represent weight/cost/length
+	2. UnWeighted Graph
+		There is no value or weight associated with the edge. 
+		By default, all the graphs are unweighted unless there is a value associated
+	3. Directed Graph
+		Edges are directed from one node to another.
+		For Example: Flights Routes, Flight Fares
+	4. UnDirected Graph
+		All Edges are Bi-Directional
+		For Example: Friends Connected On FaceBook
+
+# Storing a Graph
+	1. Adjacency Matrix (More Memory O(V^2))
+		 0 1 2 3
+		0	
+		1
+		2
+		3
+		-> Advantages: If you want to find between Neighbours
+	2. Adjacency List(Less MemoryO(V+E)) (More Preferred)
+		0 -> (1,3)
+		1 -> (2,3,0)
+		2 -> (1,3)
+		3 -> (2,1,0)
+		
+		-> Advantages: If you want to find direct neighbours
+		
+# Graph Traversals
+	1) BFS
+	2) DFS
